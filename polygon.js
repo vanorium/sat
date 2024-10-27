@@ -8,21 +8,23 @@ export class Polygon {
         this.color = 'rgb(0,0,0)'
         this.deg = 0
         this.origin = new Vec2(0.5, 0.5)
-        this.computeSidesLength()
+        this.size =  this.#computeSidesLength()
     }
 
-    computeSidesLength(){
-        const arrX = [], arrY = []
+    #computeSidesLength(){
+        let minX = Infinity
+        let maxX = -Infinity
+        let minY = Infinity
+        let maxY = -Infinity
 
         this.vertices.forEach((vertex) => {
-            arrX.push(vertex.x)
-            arrY.push(vertex.y)
+            if(vertex.x < minX) minX = vertex.x
+            if(vertex.x > maxX) maxX = vertex.x
+            if(vertex.y < minY) minY = vertex.y
+            if(vertex.y > maxY) maxY = vertex.y
         })
-
-        arrX.sort((a, b) => a-b)
-        arrY.sort((a, b) => a-b)
         
-        this.size = new Vec2(arrX[arrX.length-1] - arrX[0], arrY[arrY.length-1] - arrY[0])
+        return new Vec2(maxX - minX, maxY - minY)
     }
 
     draw(ctx) {
