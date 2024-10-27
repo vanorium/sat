@@ -4,8 +4,10 @@ An implementation of SAT collision algorithm written in JavaScript.
 
 ### Demo
 
-You can move one object using arrow keys to test collision. 
+Use arrow keys to move
+
+Use A/D to rotate
 
 ### Source
 
-https://www.youtube.com/watch?v=Zgf1DYrmSnk
+https://www.youtube.com/watch?v=-EsWKT7Doww
