@@ -19,7 +19,7 @@ const polygon2 = [
 ]
 
 const objects = [
-    new Polygon(polygon2, new Vec2(320, 320), false),
+    // new Polygon(polygon2, new Vec2(320, 320), false),
     new Polygon(polygon1, new Vec2(320, 320-64), false),
     new Polygon(polygon2, new Vec2(320, 320+64), true),
 ]
@@ -61,11 +61,15 @@ const loop = () => {
 
         if (obj1.withControl) {
 
-            obj1.translation = obj1.translation.add(
-                new Vec2((-controls.left+controls.right) * speed, (-controls.up+controls.down) * speed)
-            )
+            if(controls.left || controls.right || controls.up || controls.down){
+                obj1.translation = obj1.translation.add(
+                    new Vec2((-controls.left+controls.right) * speed, (-controls.up+controls.down) * speed)
+                )
+            }
 
-            obj1.addDeg( (-rotateControls.left+rotateControls.right)*speed)
+            if(rotateControls.left || rotateControls.right) {
+                obj1.addDeg((-rotateControls.left + rotateControls.right) * speed)
+            }
         }
 
         objects.forEach((obj2) => {
@@ -74,8 +78,9 @@ const loop = () => {
                 if (collision) {
                     obj1.color = 'rgb(255,0,0)'
 
+                    if(obj1.withControl) console.log(collision.normalizedNormal, collision.depth)
                     obj1.translation = obj1.translation.sub(collision.normalizedNormal.scale(collision.depth))
-                    obj2.translation = obj2.translation.add(collision.normalizedNormal.scale(collision.depth))
+                    // obj2.translation = obj2.translation.add(collision.normalizedNormal.scale(collision.depth))
 
                 }
             }

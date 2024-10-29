@@ -30,6 +30,7 @@ export class Polygon {
     draw(ctx) {
         const vertices = this.getTransformedVertices()
         const len = vertices.length
+        
         for (let i = 0; i < len; i++) {
             ctx.beginPath()
             ctx.moveTo(vertices[i].x, vertices[i].y)
@@ -44,20 +45,15 @@ export class Polygon {
     }
 
     addDeg(deg) {
-        this.deg = (this.deg + deg) % 360
+        this.deg += deg
+        if (this.deg > 360) this.deg = this.deg - 360
+        else if (this.deg < 0) this.deg = 360-this.deg
+
     }
 
     getTransformedVertices() {
-        const transformedVertices = []
-
-        this.vertices.forEach((vertex) => {
-            transformedVertices.push(
-                vertex.sub(this.size.scaleVec(this.origin))
-                    .rotate(this.deg)
-                    .add(this.translation)
-            )
-        })
-
-        return transformedVertices;
+        return Array.from({length: this.vertices.length}, (_, i) => 
+            this.vertices[i].sub(this.size.scaleVec(this.origin)).rotate(this.deg).add(this.translation)
+        )
     }
 }
